@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [[ $(wlr-randr | grep "HDMI") ]]; then
+	wlr-randr --output eDP-1 --off wlr-randr --output HDMI-A-1 --on --mode 1920x1080 --preferred
+else
+	wlr-randr --output eDP-1 --on --preferred
+fi
+
+killall -9 waybar
+waybar --config ~/.config/river/waybar/config --style ~/.config/river/waybar/style.css &
+swaybg -i $(find ~/.config/Wallpaper -type f | shuf -n1) -m fill &
+mpd &
+swaync &
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+export _JAVA_AWT_WM_NONREPARENTING=1
